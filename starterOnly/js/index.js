@@ -1,11 +1,7 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
+import editNav from './nav.js';
+
+// Functions used in onxyz-attribute-style handlers (onclick="editNav()) must be globals, make it a global by assigning to a window property
+window.editNav = editNav; 
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
