@@ -244,6 +244,7 @@ var Modal = function Modal() {
 _defineProperty(Modal, "dom", {
   modalbg: document.querySelector(".bground"),
   modalBtn: document.querySelectorAll(".modal-btn"),
+  closeBtn: document.querySelector(".close"),
   formData: document.querySelectorAll(".formData")
 });
 
@@ -251,10 +252,15 @@ _defineProperty(Modal, "launchModalEvent", function () {
   Modal.dom.modalBtn.forEach(function (btn) {
     return btn.addEventListener("click", Modal.launchModal);
   });
+  Modal.dom.closeBtn.addEventListener("click", Modal.closeModal);
 });
 
 _defineProperty(Modal, "launchModal", function () {
   return Modal.dom.modalbg.style.display = "block";
+});
+
+_defineProperty(Modal, "closeModal", function () {
+  return Modal.dom.modalbg.style.display = "none";
 });
 
 
