@@ -203,28 +203,9 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./js/index.js":
+/***/ "./js/Modal.js":
 /*!*********************!*\
-  !*** ./js/index.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _nav_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nav.js */ "./js/nav.js");
-/* harmony import */ var _modal_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal.js */ "./js/modal.js");
-
- // Functions used in onxyz-attribute-style handlers (onclick="editNav()) must be globals, make it a global by assigning to a window property
-
-window.editNav = _nav_js__WEBPACK_IMPORTED_MODULE_0__.default; // initialize modal
-
-_modal_js__WEBPACK_IMPORTED_MODULE_1__.default.launchModalEvent();
-
-/***/ }),
-
-/***/ "./js/modal.js":
-/*!*********************!*\
-  !*** ./js/modal.js ***!
+  !*** ./js/Modal.js ***!
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -244,8 +225,7 @@ var Modal = function Modal() {
 _defineProperty(Modal, "dom", {
   modalbg: document.querySelector(".bground"),
   modalBtn: document.querySelectorAll(".modal-btn"),
-  closeBtn: document.querySelector(".close"),
-  formData: document.querySelectorAll(".formData")
+  closeBtn: document.querySelector(".close")
 });
 
 _defineProperty(Modal, "launchModalEvent", function () {
@@ -264,6 +244,246 @@ _defineProperty(Modal, "closeModal", function () {
 });
 
 
+
+/***/ }),
+
+/***/ "./js/Validator.js":
+/*!*************************!*\
+  !*** ./js/Validator.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Validator)
+/* harmony export */ });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to set private field on non-instance"); } if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to get private field on non-instance"); } if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+var _formValid = new WeakMap();
+
+var Validator = function Validator(fieldContainer, formFields) {
+  var _this = this;
+
+  _classCallCheck(this, Validator);
+
+  _formValid.set(this, {
+    writable: true,
+    value: true
+  });
+
+  _defineProperty(this, "getFormValid", function () {
+    return _classPrivateFieldGet(_this, _formValid);
+  });
+
+  _defineProperty(this, "setFormValid", function (state) {
+    return _classPrivateFieldSet(_this, _formValid, state);
+  });
+
+  _defineProperty(this, "launchValidation", function () {
+    // reset form validation
+    _this.resetValidation();
+
+    for (var field in _this.formFields) {
+      switch (_this.formFields[field].validationType) {
+        case "name":
+          if (!_this.nameValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "email":
+          if (!_this.emailValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "number":
+          if (!_this.numberValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "radio":
+          if (!_this.radioValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element[0]);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "checkbox":
+          if (!_this.checkboxValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return _this.getFormValid();
+  });
+
+  _defineProperty(this, "nameValidation", function (name) {
+    return name.value !== null && name.value.length >= 2 ? true : false;
+  });
+
+  _defineProperty(this, "emailValidation", function (email) {
+    return /^([a-z0-9_\.-]+\@[\da-z\.-]+\.[a-z\.]{2,6})$/.test(email.value);
+  });
+
+  _defineProperty(this, "numberValidation", function (number) {
+    return /^[0-9]+$/.test(number.value);
+  });
+
+  _defineProperty(this, "radioValidation", function (radio) {
+    var _iterator = _createForOfIteratorHelper(radio),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var element = _step.value;
+        if (element.checked) return true;
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  });
+
+  _defineProperty(this, "checkboxValidation", function (checkbox) {
+    return checkbox.checked;
+  });
+
+  _defineProperty(this, "resetValidation", function () {
+    _this.setFormValid(true);
+
+    Array.from(_this.fieldContainer).map(function (field) {
+      return field.dataset.errorVisible = false;
+    });
+  });
+
+  _defineProperty(this, "invalidInputStyle", function (input) {
+    input.parentNode.setAttribute("data-error-visible", true);
+  });
+
+  this.fieldContainer = fieldContainer;
+  this.formFields = formFields;
+};
+
+
+
+/***/ }),
+
+/***/ "./js/formConfig.js":
+/*!**************************!*\
+  !*** ./js/formConfig.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formFields": () => (/* binding */ formFields),
+/* harmony export */   "fieldContainer": () => (/* binding */ fieldContainer)
+/* harmony export */ });
+var formFields = {
+  firstName: {
+    element: document.getElementById("first"),
+    validationType: "name"
+  },
+  lastName: {
+    element: document.getElementById("last"),
+    validationType: "name"
+  },
+  email: {
+    element: document.getElementById("email"),
+    validationType: "email"
+  },
+  birthdate: {
+    element: document.getElementById("birthdate"),
+    validationType: "date"
+  },
+  quantity: {
+    element: document.getElementById("quantity"),
+    validationType: "number"
+  },
+  location: {
+    element: document.querySelectorAll('input[name="location"]'),
+    validationType: "radio"
+  },
+  checkbox: {
+    element: document.getElementById("checkbox1"),
+    validationType: "checkbox"
+  }
+};
+var fieldContainer = document.querySelectorAll(".formData");
+
+
+/***/ }),
+
+/***/ "./js/index.js":
+/*!*********************!*\
+  !*** ./js/index.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nav_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nav.js */ "./js/nav.js");
+/* harmony import */ var _Modal_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Modal.js */ "./js/Modal.js");
+/* harmony import */ var _Validator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validator.js */ "./js/Validator.js");
+/* harmony import */ var _formConfig_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./formConfig.js */ "./js/formConfig.js");
+
+
+
+
+/* Functions used in onxyz-attribute-style handlers (onclick="editNav()) must be globals,
+   make it a global by assigning to a window property  */
+
+window.editNav = _nav_js__WEBPACK_IMPORTED_MODULE_0__.default; //💩
+// initialize modal 🚀
+
+_Modal_js__WEBPACK_IMPORTED_MODULE_1__.default.launchModalEvent();
+var validator = new _Validator_js__WEBPACK_IMPORTED_MODULE_2__.default(_formConfig_js__WEBPACK_IMPORTED_MODULE_3__.fieldContainer, _formConfig_js__WEBPACK_IMPORTED_MODULE_3__.formFields);
+var formName = document.getElementsByName("reserve")[0];
+
+formName.onsubmit = function (event) {
+  event.preventDefault();
+
+  if (validator.launchValidation()) {
+    formName.reset();
+    console.log('ok');
+  }
+};
 
 /***/ }),
 

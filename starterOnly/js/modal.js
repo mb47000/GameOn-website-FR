@@ -4,7 +4,6 @@ export default class Modal {
     modalbg: document.querySelector(".bground"),
     modalBtn: document.querySelectorAll(".modal-btn"),
     closeBtn: document.querySelector(".close"),
-    formData: document.querySelectorAll(".formData"),
   };
 
   // launch modal event

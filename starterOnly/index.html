@@ -61,7 +61,7 @@
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return validate();"
+              novalidate
             >
               <div
                 class="formData">
@@ -114,7 +114,7 @@
                 class="formData">
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location1"
                   name="location"
                   value="New York"
@@ -125,7 +125,7 @@
                 >
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location2"
                   name="location"
                   value="San Francisco"
@@ -136,7 +136,7 @@
                 >
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location3"
                   name="location"
                   value="Seattle"
@@ -147,7 +147,7 @@
                 >
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location4"
                   name="location"
                   value="Chicago"
@@ -158,7 +158,7 @@
                 >
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location5"
                   name="location"
                   value="Boston"
@@ -169,7 +169,7 @@
                 >
                 <input
                   class="checkbox-input"
-                  type="checkbox"
+                  type="radio"
                   id="location6"
                   name="location"
                   value="Portland"
@@ -216,7 +216,7 @@
         Copyright 2014 - 2020, GameOn Inc.
       </p>
     </footer>
-    <script src="./dist/polyfill.bundle.js"></script>
-    <script src="./dist/app.bundle.js"></script>
+    <script src="./dist/polyfill.bundle.js" async defer></script>
+    <script src="./dist/app.bundle.js" async defer></script>
   </body>
 </html>

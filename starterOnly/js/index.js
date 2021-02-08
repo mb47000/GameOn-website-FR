@@ -1,9 +1,25 @@
-import editNav from './nav.js';
-import Modal from './modal.js';
+import editNav from "./nav.js";
+import Modal from "./Modal.js";
+import Validator from "./Validator.js";
+import {formFields, fieldContainer} from "./formConfig.js";
 
-// Functions used in onxyz-attribute-style handlers (onclick="editNav()) must be globals, make it a global by assigning to a window property
-window.editNav = editNav; 
 
-// initialize modal
+/* Functions used in onxyz-attribute-style handlers (onclick="editNav()) must be globals,
+   make it a global by assigning to a window property  */
+window.editNav = editNav; //💩
+
+// initialize modal 🚀
 Modal.launchModalEvent();
 
+const validator = new Validator(fieldContainer, formFields);
+
+const formName = document.getElementsByName("reserve")[0];
+
+formName.onsubmit = (event) => {
+  event.preventDefault();
+  
+  if (validator.launchValidation()) {
+    formName.reset();
+    console.log('ok');
+  }
+};
