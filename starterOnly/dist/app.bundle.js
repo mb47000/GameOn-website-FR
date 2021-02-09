@@ -225,7 +225,10 @@ var Modal = function Modal() {
 _defineProperty(Modal, "dom", {
   modalbg: document.querySelector(".bground"),
   modalBtn: document.querySelectorAll(".modal-btn"),
-  closeBtn: document.querySelector(".close")
+  closeBtn: document.querySelector(".close"),
+  closeConfirm: document.querySelector(".close-confirm"),
+  modalConfirm: document.querySelector(".confirm-modal"),
+  form: document.getElementsByName("reserve")[0]
 });
 
 _defineProperty(Modal, "launchModalEvent", function () {
@@ -233,6 +236,7 @@ _defineProperty(Modal, "launchModalEvent", function () {
     return btn.addEventListener("click", Modal.launchModal);
   });
   Modal.dom.closeBtn.addEventListener("click", Modal.closeModal);
+  Modal.dom.closeConfirm.addEventListener("click", Modal.closeConfirm);
 });
 
 _defineProperty(Modal, "launchModal", function () {
@@ -241,6 +245,19 @@ _defineProperty(Modal, "launchModal", function () {
 
 _defineProperty(Modal, "closeModal", function () {
   return Modal.dom.modalbg.style.display = "none";
+});
+
+_defineProperty(Modal, "closeConfirm", function () {
+  Modal.closeModal();
+  Modal.dom.form.style.display = "block";
+  Modal.dom.modalConfirm.style.display = "none";
+  Modal.dom.modalConfirm.classList.remove("confirm-message");
+});
+
+_defineProperty(Modal, "validation", function () {
+  Modal.dom.form.style.display = "none";
+  Modal.dom.modalConfirm.style.display = "block";
+  Modal.dom.modalConfirm.classList.add("confirm-message");
 });
 
 
@@ -502,7 +519,7 @@ formName.onsubmit = function (event) {
 
   if (validator.launchValidation()) {
     formName.reset();
-    console.log('ok');
+    _Class_Modal_js__WEBPACK_IMPORTED_MODULE_1__.default.validation();
   }
 };
 

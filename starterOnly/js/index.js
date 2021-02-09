@@ -20,6 +20,6 @@ formName.onsubmit = (event) => {
   
   if (validator.launchValidation()) {
     formName.reset();
-    console.log('ok');
+    Modal.validation();
   }
 };
