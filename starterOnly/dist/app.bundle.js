@@ -203,10 +203,10 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./js/Modal.js":
-/*!*********************!*\
-  !*** ./js/Modal.js ***!
-  \*********************/
+/***/ "./js/Class/Modal.js":
+/*!***************************!*\
+  !*** ./js/Class/Modal.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -247,10 +247,10 @@ _defineProperty(Modal, "closeModal", function () {
 
 /***/ }),
 
-/***/ "./js/Validator.js":
-/*!*************************!*\
-  !*** ./js/Validator.js ***!
-  \*************************/
+/***/ "./js/Class/Validator.js":
+/*!*******************************!*\
+  !*** ./js/Class/Validator.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -292,65 +292,6 @@ var Validator = function Validator(fieldContainer, formFields) {
     return _classPrivateFieldSet(_this, _formValid, state);
   });
 
-  _defineProperty(this, "launchValidation", function () {
-    // reset form validation
-    _this.resetValidation();
-
-    for (var field in _this.formFields) {
-      switch (_this.formFields[field].validationType) {
-        case "name":
-          if (!_this.nameValidation(_this.formFields[field].element)) {
-            _this.invalidInputStyle(_this.formFields[field].element);
-
-            _this.setFormValid(false);
-          }
-
-          break;
-
-        case "email":
-          if (!_this.emailValidation(_this.formFields[field].element)) {
-            _this.invalidInputStyle(_this.formFields[field].element);
-
-            _this.setFormValid(false);
-          }
-
-          break;
-
-        case "number":
-          if (!_this.numberValidation(_this.formFields[field].element)) {
-            _this.invalidInputStyle(_this.formFields[field].element);
-
-            _this.setFormValid(false);
-          }
-
-          break;
-
-        case "radio":
-          if (!_this.radioValidation(_this.formFields[field].element)) {
-            _this.invalidInputStyle(_this.formFields[field].element[0]);
-
-            _this.setFormValid(false);
-          }
-
-          break;
-
-        case "checkbox":
-          if (!_this.checkboxValidation(_this.formFields[field].element)) {
-            _this.invalidInputStyle(_this.formFields[field].element);
-
-            _this.setFormValid(false);
-          }
-
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    return _this.getFormValid();
-  });
-
   _defineProperty(this, "nameValidation", function (name) {
     return name.value !== null && name.value.length >= 2 ? true : false;
   });
@@ -383,16 +324,89 @@ var Validator = function Validator(fieldContainer, formFields) {
     return checkbox.checked;
   });
 
+  _defineProperty(this, "dateValidation", function (date) {
+    return date.value != '' ? true : false;
+  });
+
   _defineProperty(this, "resetValidation", function () {
     _this.setFormValid(true);
 
     Array.from(_this.fieldContainer).map(function (field) {
-      return field.dataset.errorVisible = false;
+      field.dataset.errorVisible = false;
     });
   });
 
-  _defineProperty(this, "invalidInputStyle", function (input) {
+  _defineProperty(this, "invalidInputStyle", function (input, invalidMessage) {
     input.parentNode.setAttribute("data-error-visible", true);
+    input.parentNode.setAttribute("data-error", invalidMessage);
+  });
+
+  _defineProperty(this, "launchValidation", function () {
+    // reset form validation
+    _this.resetValidation();
+
+    for (var field in _this.formFields) {
+      switch (_this.formFields[field].validationType) {
+        case "name":
+          if (!_this.nameValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element, _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "email":
+          if (!_this.emailValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element, _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "number":
+          if (!_this.numberValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element, _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "radio":
+          if (!_this.radioValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element[0], _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "checkbox":
+          if (!_this.checkboxValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element, _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        case "date":
+          if (!_this.dateValidation(_this.formFields[field].element)) {
+            _this.invalidInputStyle(_this.formFields[field].element, _this.formFields[field].invalidMessage);
+
+            _this.setFormValid(false);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return _this.getFormValid();
   });
 
   this.fieldContainer = fieldContainer;
@@ -418,31 +432,38 @@ __webpack_require__.r(__webpack_exports__);
 var formFields = {
   firstName: {
     element: document.getElementById("first"),
-    validationType: "name"
+    validationType: "name",
+    invalidMessage: "Veuillez entrer 2 caractères ou plus pour le champ du prénom."
   },
   lastName: {
     element: document.getElementById("last"),
-    validationType: "name"
+    validationType: "name",
+    invalidMessage: "Veuillez entrer 2 caractères ou plus pour le champ du nom."
   },
   email: {
     element: document.getElementById("email"),
-    validationType: "email"
+    validationType: "email",
+    invalidMessage: "Veuillez entrer une adresse mail valide."
   },
   birthdate: {
     element: document.getElementById("birthdate"),
-    validationType: "date"
+    validationType: "date",
+    invalidMessage: "Vous devez entrer votre date de naissance."
   },
   quantity: {
     element: document.getElementById("quantity"),
-    validationType: "number"
+    validationType: "number",
+    invalidMessage: "Veuillez entrer un nombre."
   },
   location: {
     element: document.querySelectorAll('input[name="location"]'),
-    validationType: "radio"
+    validationType: "radio",
+    invalidMessage: "Veuillez selectionner une ville."
   },
   checkbox: {
     element: document.getElementById("checkbox1"),
-    validationType: "checkbox"
+    validationType: "checkbox",
+    invalidMessage: "Vous devez vérifier que vous acceptez les termes et conditions."
   }
 };
 var fieldContainer = document.querySelectorAll(".formData");
@@ -459,8 +480,8 @@ var fieldContainer = document.querySelectorAll(".formData");
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nav.js */ "./js/nav.js");
-/* harmony import */ var _Modal_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Modal.js */ "./js/Modal.js");
-/* harmony import */ var _Validator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validator.js */ "./js/Validator.js");
+/* harmony import */ var _Class_Modal_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Class/Modal.js */ "./js/Class/Modal.js");
+/* harmony import */ var _Class_Validator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Class/Validator.js */ "./js/Class/Validator.js");
 /* harmony import */ var _formConfig_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./formConfig.js */ "./js/formConfig.js");
 
 
@@ -472,8 +493,8 @@ __webpack_require__.r(__webpack_exports__);
 window.editNav = _nav_js__WEBPACK_IMPORTED_MODULE_0__.default; //💩
 // initialize modal 🚀
 
-_Modal_js__WEBPACK_IMPORTED_MODULE_1__.default.launchModalEvent();
-var validator = new _Validator_js__WEBPACK_IMPORTED_MODULE_2__.default(_formConfig_js__WEBPACK_IMPORTED_MODULE_3__.fieldContainer, _formConfig_js__WEBPACK_IMPORTED_MODULE_3__.formFields);
+_Class_Modal_js__WEBPACK_IMPORTED_MODULE_1__.default.launchModalEvent();
+var validator = new _Class_Validator_js__WEBPACK_IMPORTED_MODULE_2__.default(_formConfig_js__WEBPACK_IMPORTED_MODULE_3__.fieldContainer, _formConfig_js__WEBPACK_IMPORTED_MODULE_3__.formFields);
 var formName = document.getElementsByName("reserve")[0];
 
 formName.onsubmit = function (event) {

@@ -1,6 +1,6 @@
 import editNav from "./nav.js";
-import Modal from "./Modal.js";
-import Validator from "./Validator.js";
+import Modal from "./Class/Modal.js";
+import Validator from "./Class/Validator.js";
 import {formFields, fieldContainer} from "./formConfig.js";
 
 
