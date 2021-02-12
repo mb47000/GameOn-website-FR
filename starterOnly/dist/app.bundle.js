@@ -343,7 +343,7 @@ var Validator = function Validator(fieldContainer, formFields) {
   });
 
   _defineProperty(this, "dateValidation", function (date) {
-    return date.value != '' ? true : false;
+    return date.value != "" ? true : false;
   });
 
   _defineProperty(this, "resetValidation", function () {

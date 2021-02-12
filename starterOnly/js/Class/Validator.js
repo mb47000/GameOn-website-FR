@@ -25,15 +25,14 @@ export default class Validator {
 
   checkboxValidation = (checkbox) => checkbox.checked;
 
-  dateValidation = (date) => date.value != '' ? true : false;
+  dateValidation = (date) => (date.value != "" ? true : false);
 
   // Reset errors fields style and set the default value for private property #formValid
   resetValidation = () => {
     this.setFormValid(true);
     Array.from(this.fieldContainer).map((field) => {
       field.dataset.errorVisible = false;
-    }
-    );
+    });
   };
 
   // Add css style for invalid input entry and show message
@@ -42,7 +41,7 @@ export default class Validator {
     input.parentNode.setAttribute("data-error", invalidMessage);
   };
 
-  
+  // Check input validity for each element in formFields attribute
   launchValidation = () => {
     // reset form validation
     this.resetValidation();
@@ -51,46 +50,63 @@ export default class Validator {
       switch (this.formFields[field].validationType) {
         case "name":
           if (!this.nameValidation(this.formFields[field].element)) {
-            this.invalidInputStyle(this.formFields[field].element, this.formFields[field].invalidMessage);
+            this.invalidInputStyle(
+              this.formFields[field].element,
+              this.formFields[field].invalidMessage
+            );
             this.setFormValid(false);
           }
           break;
 
         case "email":
           if (!this.emailValidation(this.formFields[field].element)) {
-            this.invalidInputStyle(this.formFields[field].element, this.formFields[field].invalidMessage);
+            this.invalidInputStyle(
+              this.formFields[field].element,
+              this.formFields[field].invalidMessage
+            );
             this.setFormValid(false);
           }
           break;
 
         case "number":
           if (!this.numberValidation(this.formFields[field].element)) {
-            this.invalidInputStyle(this.formFields[field].element, this.formFields[field].invalidMessage);
+            this.invalidInputStyle(
+              this.formFields[field].element,
+              this.formFields[field].invalidMessage
+            );
             this.setFormValid(false);
           }
           break;
 
         case "radio":
           if (!this.radioValidation(this.formFields[field].element)) {
-            this.invalidInputStyle(this.formFields[field].element[0], this.formFields[field].invalidMessage);
+            this.invalidInputStyle(
+              this.formFields[field].element[0],
+              this.formFields[field].invalidMessage
+            );
             this.setFormValid(false);
           }
           break;
 
         case "checkbox":
           if (!this.checkboxValidation(this.formFields[field].element)) {
-            this.invalidInputStyle(this.formFields[field].element, this.formFields[field].invalidMessage);
+            this.invalidInputStyle(
+              this.formFields[field].element,
+              this.formFields[field].invalidMessage
+            );
             this.setFormValid(false);
           }
           break;
 
-          case "date":
-            if (!this.dateValidation(this.formFields[field].element)) {
-              this.invalidInputStyle(this.formFields[field].element, this.formFields[field].invalidMessage);
-              this.setFormValid(false);
-            }
-            break;
-
+        case "date":
+          if (!this.dateValidation(this.formFields[field].element)) {
+            this.invalidInputStyle(
+              this.formFields[field].element,
+              this.formFields[field].invalidMessage
+            );
+            this.setFormValid(false);
+          }
+          break;
 
         default:
           break;

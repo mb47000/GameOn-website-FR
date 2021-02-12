@@ -9,7 +9,7 @@ export default class Modal {
     form: document.getElementsByName("reserve")[0],
   };
 
-  // launch modal event
+  // launch modal event, add listener for open the modal and close them with the close button or X button
   static launchModalEvent = () => {
     this.dom.modalBtn.forEach((btn) =>
       btn.addEventListener("click", this.launchModal)
@@ -21,13 +21,13 @@ export default class Modal {
 
   };
 
-  // launch modal form
+  // launch modal form, display the modal with css property display block
   static launchModal = () => (this.dom.modalbg.style.display = "block");
 
-  // Close modal
+  // Close modal, hide the modal with css property display none
   static closeModal = () => (this.dom.modalbg.style.display = "none");
 
-  //Close confirm modal
+  //Close confirm modal, reset the display of the modal
   static closeConfirm = () => {
     this.closeModal();
     this.dom.form.style.display = "block";
@@ -35,7 +35,7 @@ export default class Modal {
     this.dom.modalConfirm.classList.remove("confirm-message");
   };
 
-  // Show message validation
+  // Show message validation and hide form
   static validation = () => {
     this.dom.form.style.display = "none";
     this.dom.modalConfirm.style.display = "block";
