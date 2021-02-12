@@ -16,6 +16,7 @@ export default class Modal {
     );
 
     this.dom.closeBtn.addEventListener("click", this.closeModal);
+    this.dom.closeBtn.addEventListener("click", this.closeConfirm);
     this.dom.closeConfirm.addEventListener("click", this.closeConfirm);
 
   };

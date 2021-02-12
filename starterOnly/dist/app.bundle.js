@@ -236,6 +236,7 @@ _defineProperty(Modal, "launchModalEvent", function () {
     return btn.addEventListener("click", Modal.launchModal);
   });
   Modal.dom.closeBtn.addEventListener("click", Modal.closeModal);
+  Modal.dom.closeBtn.addEventListener("click", Modal.closeConfirm);
   Modal.dom.closeConfirm.addEventListener("click", Modal.closeConfirm);
 });
 
